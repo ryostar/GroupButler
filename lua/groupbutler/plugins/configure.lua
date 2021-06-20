@@ -63,7 +63,7 @@ function _M:onTextMessage()
 		u:sendStartMe(msg)
 		return
 	end
-	api:sendMessage(msg.from.chat.id, i18n("_I've sent you the keyboard via private message_"), "Markdown")
+	api:sendMessage(msg.from.chat.id, i18n("_Tôi đã gửi cho bạn bàn phím qua tin nhắn riêng_"), "Markdown")
 end
 
 function _M:onCallbackQuery()
