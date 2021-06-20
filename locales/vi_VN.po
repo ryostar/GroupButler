@@ -18,19 +18,19 @@ msgstr ""
 
 #: lua/groupbutler/api_errors.lua:19
 msgid "An unknown error has ocurred"
-msgstr ""
+msgstr "Đã xảy ra lỗi không xác định"
 
 #: lua/groupbutler/api_errors.lua:20
 msgid "I don't have enough permissions to restrict users"
-msgstr ""
+msgstr "Tôi không có đủ quyền hạn chế người dùng"
 
 #: lua/groupbutler/api_errors.lua:21
 msgid "I'm not an admin, I can't kick people"
-msgstr ""
+msgstr "Tôi không phải là quản trị viên, tôi không thể đá mọi người"
 
 #: lua/groupbutler/api_errors.lua:22
 msgid "I can't do that to admins!"
-msgstr ""
+msgstr "Tôi không thể làm điều đó với quản trị viên!"
 
 #: lua/groupbutler/api_errors.lua:23
 msgid "There is no need to unban in a normal group"
@@ -206,15 +206,15 @@ msgstr ""
 
 #: lua/groupbutler/plugins/antispam.lua:243
 msgid "Kick 👞"
-msgstr ""
+msgstr "Sút 👞""
 
 #: lua/groupbutler/plugins/antispam.lua:245
 msgid "Ban 🔨"
-msgstr ""
+msgstr "Cấm 🔨"
 
 #: lua/groupbutler/plugins/antispam.lua:247
 msgid "Mute 👁"
-msgstr ""
+msgstr "Khóa mõm 👁"
 
 #: lua/groupbutler/plugins/antispam.lua:298
 #: lua/groupbutler/plugins/floodmanager.lua:157
