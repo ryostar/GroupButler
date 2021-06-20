@@ -31,7 +31,7 @@ I'm Group Butler, the first administration bot using the official Bot API.
 I work better if you add me to the group administrators (otherwise I won't be able to kick or ban)!]]),
 		basics = i18n([[This bot works only in supergroups.
 
-To work properly, [it needs to be admin in your group](https://telegram.me/GroupButler_ch/104), so it can kick or ban people if needed.
+To work properly, it needs to be admin in your group, so it can kick or ban people if needed.
 Only the group owner can promote it :)
 
 You can use `/, ! or #` to trigger a command.
@@ -68,7 +68,7 @@ Admins need to give their consense to receive reports from users, with `/mysetti
 • `/setrules -`: delete the current rules.
 
 *Note*: the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.
-For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel
+For a correct use of the markdown, check this post in the channel
 
 • `/setlink [link|-]`: set the group link, so it can be re-called by other admins, or unset it.
 If you are going to use it in a public supergroup, you do not need to append the group link. Just send `/setlink`
@@ -121,7 +121,7 @@ Placeholders:
 `$id`: _will be replaced with the id_
 `$title`: _will be replaced with the group title_
 `$surname`: _will be replaced by the user's last name_
-`$rules`: _will be replaced by a link to the rules of the group. Please read_ [here](https://telegram.me/GroupButler_beta/26) _how to use it, or you will get an error for sure_
+`$rules`: _will be replaced by a link to the rules of the group. Please read_ here _how to use it, or you will get an error for sure_
 *Note*: `$name`, `$surname`, and `$title` may not work properly within markdown markup.
 
 *GIF/sticker as welcome message*
@@ -151,7 +151,7 @@ You can reply to a media (_photo, file, vocal, video, gif, audio_) with `/extra 
 • `/extra del [#trigger]`: delete the trigger and its message.
 
 *Note:* the markdown is supported. If the text sent breaks the markdown, the bot will notify that something is wrong.
-For a correct use of the markdown, check [this post](https://telegram.me/GroupButler_ch/46) in the channel.
+For a correct use of the markdown, check this post in the channel.
 Now supports placeholders. Check the "welcome" tab for the list of the available placeholders]]),
 		warns = i18n([[*Warns*
 Warn are made to keep the count of the admonitions received by a user. Once users have been warned for the defined number of times, they are kicked/banned by the bot.
@@ -184,7 +184,7 @@ So with `/pin` you can generate a message to pin, and edit it how many times you
 
 *Note*: the translators are volunteers, so neither the correctness nor completeness of localizations can be guaranteed.
 
-You can help improve translations on our [Crowdin Project](https://crowdin.com/project/group-butler).
+You can help improve translations on our Crowdin Project
 
 *Special characters*
 
