@@ -138,7 +138,7 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 	-- Do not process old updates
 	local now = os.time(os.date("*t"))
 	if msg.date < now - config.bot_settings.old_update then
-		log.warn('Old update skipped: {time} {diff}', {time=os.date('%H:%M:%S', msg.date), diff=now-msg.date})
+		log.warn('Cập nhật cũ bị bỏ qua: {time} {diff}', {time=os.date('%H:%M:%S', msg.date), diff=now-msg.date})
 		u:metric_incr("messages_skipped")
 		return true
 	end
@@ -148,13 +148,13 @@ local function on_msg_receive(self, callback) -- The fn run whenever a message i
 
 	-- Do not process messages from normal groups
 	if msg.from.chat.type == 'group' then
-		api:sendMessage(msg.from.chat.id, i18n([[Hello everyone!
-My name is %s, and I'm a bot made to help administrators in their hard work.
-Unfortunately I can't work in normal groups. If you need me, please ask the creator to convert this group to a supergroup and then add me again.
+		api:sendMessage(msg.from.chat.id, i18n([[Xin chào tất cả mọi người!
+Tên tôi là %s và tôi là một bot được tạo ra để trợ giúp các quản trị viên trong công việc khó khăn của họ.
+Rất tiếc là tôi không thể làm việc trong các nhóm bình thường. Nếu bạn cần tôi, vui lòng yêu cầu người tạo chuyển nhóm này thành siêu nhóm và sau đó thêm tôi lại.
 ]]):format(bot.first_name))
 		api:leaveChat(msg.from.chat.id)
 		if config.bot_settings.stream_commands then
-			log.info('Bot was added to a normal group {by_name} [{from_id}] -> [{chat_id}]',
+			log.info('Bot đã được thêm vào một nhóm bình thường {by_name} [{from_id}] -> [{chat_id}]',
 					{
 						by_name=msg.from.user.first_name,
 						from_id=msg.from.user.id,
