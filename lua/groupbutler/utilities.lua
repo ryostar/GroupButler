@@ -161,7 +161,7 @@ function _M:cache_adminlist(chat)
 	end
 
 	red:setex(global_lock, 5, "")
-	log.info('Saving the adminlist for: {chat_id}', {chat_id=chat.id})
+	log.info('Lưu danh sách quản trị viên cho: {chat_id}', {chat_id=chat.id})
 	self:metric_incr("api_getchatadministrators_count")
 	local ok, err = api:getChatAdministrators(chat.id)
 	if not ok then
@@ -202,7 +202,7 @@ function _M:dump(o) -- luacheck: ignore 212
 end
 
 function _M:download_to_file(url, filepath) -- luacheck: ignore 212
-	log.info("url to download: {url}", {url=url})
+	log.info("url để tải xuống: {url}", {url=url})
 	if ngx then
 		local httpc = http.new()
 		local ok, err = httpc:request_uri(url)
@@ -228,7 +228,7 @@ function _M:download_to_file(url, filepath) -- luacheck: ignore 212
 		-- local headers = response[3] -- unused variables
 		-- local status = response[4] -- unused variables
 		if code ~= 200 then return false, code end
-		log.info("Saved to: {path}", {path=filepath})
+		log.info("Đã lưu vào: {path}", {path=filepath})
 		local file = io.open(filepath, "w+")
 		file:write(table.concat(respbody))
 		file:close()
@@ -334,7 +334,7 @@ function _M:getAdminlist(chat)
 	if creator == "" then
 		creator = "-"
 	end
-	return i18n("<b>👤 Creator</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list - 1, adminlist)
+	return i18n("<b>👤 Tạo bởi</b>\n└ %s\n\n<b>👥 Admins</b> (%d)\n%s"):format(creator, #list - 1, adminlist)
 end
 
 function _M:getExtraList(chat_id)
@@ -344,10 +344,10 @@ function _M:getExtraList(chat_id)
 	local hash = 'chat:'..chat_id..':extra'
 	local commands = red:hkeys(hash)
 	if not next(commands) then
-		return i18n("No commands set")
+		return i18n("Không có lệnh nào được đặt")
 	end
 	table.sort(commands)
-	return i18n("List of custom commands:\n") .. table.concat(commands, '\n')
+	return i18n("Danh sách các lệnh tùy chỉnh:\n") .. table.concat(commands, '\n')
 end
 
 function _M:getSettings(chat_id)
@@ -359,24 +359,24 @@ function _M:getSettings(chat_id)
 	local lang = red:get('lang:'..chat_id) -- group language
 	if lang == null then lang = config.lang end
 
-	local message = i18n("Current settings for *the group*:\n\n")
-			.. i18n("*Language*: %s\n"):format(config.available_languages[lang])
+	local message = i18n("Cài đặt hiện tại cho *nhóm*:\n\n")
+			.. i18n("*Ngôn ngữ*: %s\n"):format(config.available_languages[lang])
 
 	--build the message
 	local strings = {
-		Welcome = i18n("Welcome message"),
-		Goodbye = i18n("Goodbye message"),
-		Extra = i18n("Extra"),
+		Welcome = i18n("Tin nhắn chào mừng"),
+		Goodbye = i18n("Tin nhắn tạm biệt"),
+		Extra = i18n("Thêm"),
 		Flood = i18n("Anti-flood"),
-		Antibot = i18n("Ban bots"),
-		Silent = i18n("Silent mode"),
-		Rules = i18n("Rules"),
+		Antibot = i18n("Cấm bots"),
+		Silent = i18n("Chế độ im lặng"),
+		Rules = i18n("Nội quy"),
 		Arab = i18n("Arab"),
 		Rtl = i18n("RTL"),
-		Reports = i18n("Reports"),
-		Weldelchain = i18n("Delete last welcome message"),
-		Welbut = i18n("Welcome button"),
-		Clean_service_msg = i18n("Clean Service Messages"),
+		Reports = i18n("Báo cáo"),
+		Weldelchain = i18n("Xóa tin nhắn chào mừng cuối cùng"),
+		Welbut = i18n("Nút chào mừng"),
+		Clean_service_msg = i18n("Thông báo dịch vụ sạch"),
 	} Util.setDefaultTableValue(strings, i18n("Unknown"))
 	for key, default in pairs(config.chat_settings['settings']) do
 
@@ -412,11 +412,11 @@ function _M:getSettings(chat_id)
 	hash = 'chat:'..chat_id..':welcome'
 	local type = red:hget(hash, 'type')
 	if type == 'media' then
-		message = message .. i18n("*Welcome type*: `GIF / sticker`\n")
+		message = message .. i18n("*Kiểu chào mừng*: `GIF / sticker`\n")
 	elseif type == 'custom' then
-		message = message .. i18n("*Welcome type*: `custom message`\n")
+		message = message .. i18n("*Kiểu chào mừng*: `custom message`\n")
 	elseif type == 'no' then
-		message = message .. i18n("*Welcome type*: `default message`\n")
+		message = message .. i18n("*Kiểu chào mừng*: `default message`\n")
 	end
 
 	local warnmax_std = red:hget('chat:'..chat_id..':warnsettings', 'max')
@@ -425,8 +425,8 @@ function _M:getSettings(chat_id)
 	local warnmax_media = red:hget('chat:'..chat_id..':warnsettings', 'mediamax')
 	if warnmax_media == null then warnmax_media = config.chat_settings['warnsettings']['mediamax'] end
 
-	return message .. i18n("Warns (`standard`): *%s*\n"):format(warnmax_std)
-		.. i18n("Warns (`media`): *%s*\n\n"):format(warnmax_media)
+	return message .. i18n("Cảnh cáo (`standard`): *%s*\n"):format(warnmax_std)
+		.. i18n("Cảnh cáo (`media`): *%s*\n\n"):format(warnmax_media)
 		.. i18n("✅ = _enabled / allowed_\n")
 		.. i18n("🚫 = _disabled / not allowed_\n")
 		.. i18n("👥 = _sent in group (always for admins)_\n")
@@ -613,7 +613,7 @@ function _M:logEvent(event, msg, extra)
 			--warns max: warnmax
 			--motivation: motivation
 			text = i18n(
-				'#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>User</b>: %s [#id%d]\n• <b>Count</b>: <code>%d/%d</code>'
+				'#%s\n• <b>Admin</b>: %s [#id%d]\n• %s\n• <b>Người dùng</b>: %s [#id%d]\n• <b>Số lần</b>: <code>%d/%d</code>'
 			):format(event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user), extra.user_id,
 				extra.warns, extra.warnmax
 			)
@@ -623,16 +623,16 @@ function _M:logEvent(event, msg, extra)
 			--admin name formatted: admin
 			--user name formatted: user
 			--user id: user_id
-			text = i18n("#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]"):format(
+			text = i18n("#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>Người dùng</b>: %s [#id%s]"):format(
 				'WARNS_RESET', extra.admin, msg.from.user.id, chat_info, extra.user, extra.user_id)
 		end,
 		block = function() -- or unblock
 			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n'
 			):format(event:upper(), msg.from.user, msg.from.user.id, chat_info)
 			if extra.n then
-				text = text..i18n('• <i>Users involved: %d</i>'):format(extra.n)
+				text = text..i18n('• <i>Người dùng liên quan: %d</i>'):format(extra.n)
 			elseif extra.user then
-				text = text..i18n('• <b>User</b>: %s [#id%d]'):format(extra.user, msg.reply.forward_from.id)
+				text = text..i18n('• <b>Người dùng</b>: %s [#id%d]'):format(extra.user, msg.reply.forward_from.id)
 			end
 		end,
 		tempban = function()
@@ -644,7 +644,7 @@ function _M:logEvent(event, msg, extra)
 			--hours: h
 			--motivation: motivation
 			text = i18n(
-			'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]\n• <b>Duration</b>: %d days, %d hours'
+			'#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>Người dùng</b>: %s [#id%s]\n• <b>Thời gian</b>: %d ngày, %d giờ'
 			):format(event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user),
 			extra.user_id, extra.d, extra.h)
 		end,
@@ -654,11 +654,11 @@ function _M:logEvent(event, msg, extra)
 			--user name formatted: user
 			--user id: user_id
 			--motivation: motivation
-			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>User</b>: %s [#id%s]'):format(
+			text = i18n('#%s\n• <b>Admin</b>: %s [#id%s]\n• %s\n• <b>Người dùng</b>: %s [#id%s]'):format(
 				event:upper(), tostring(extra.admin), msg.from.user.id, chat_info, tostring(extra.user), extra.user_id)
 		end,
 	} Util.setDefaultTableValue(log_event, function()
-			text = i18n('#%s\n• %s\n• <b>By</b>: %s'):format(event:upper(), chat_info, member)
+			text = i18n('#%s\n• %s\n• <b>Bởi</b>: %s'):format(event:upper(), chat_info, member)
 	end)
 
 	log_event.unblock = log_event.block
@@ -679,16 +679,16 @@ function _M:logEvent(event, msg, extra)
 
 	if extra then
 		if rawget(extra, "hammered") then
-			text = text..i18n("\n• <b>Action</b>: #%s"):format(extra.hammered:upper())
+			text = text..i18n("\n• <b>Tiến hành</b>: #%s"):format(extra.hammered:upper())
 		end
 		if rawget(extra, "motivation") then
-			text = text..i18n('\n• <b>Reason</b>: <i>%s</i>'):format(extra.motivation:escape_html())
+			text = text..i18n('\n• <b>Lý do</b>: <i>%s</i>'):format(extra.motivation:escape_html())
 		end
 	end
 
 	if msg.from.chat.username then
 		text = text..('\n• <a href="telegram.me/%s/%d">%s</a>'):format(
-			msg.from.chat.username, msg.message_id, i18n('Go to the message')
+			msg.from.chat.username, msg.message_id, i18n('Đi tới tin nhắn')
 		)
 	end
 
@@ -699,7 +699,7 @@ function _M:logEvent(event, msg, extra)
 		disable_webpagepreview = true,
 		reply_markup = reply_markup
 	}
-	if not ok and err.description:match("chat not found") then
+	if not ok and err.description:match("trò chuyện không tìm thấy") then
 		red:hdel('bot:chatlogs', msg.from.chat.id)
 	end
 end
